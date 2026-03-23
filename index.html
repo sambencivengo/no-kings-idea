@@ -1,550 +1,607 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>No Kings — Keep the Pressure On</title>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<style>
-  :root {
-    --red: #E8000D;
-    --navy: #0B1F3A;
-    --cream: #F5F0E8;
-    --gold: #F4A800;
-    --white: #FFFFFF;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: var(--navy);
-    color: var(--cream);
-    font-family: 'DM Sans', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* HERO */
-  .hero {
-    position: relative;
-    padding: 60px 24px 40px;
-    text-align: center;
-    overflow: hidden;
-  }
-
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: -80px; left: 50%;
-    transform: translateX(-50%);
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(232,0,13,0.18) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .eyebrow {
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 700;
-    font-size: 11px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 16px;
-  }
-
-  h1 {
-    font-family: 'Anton', sans-serif;
-    font-size: clamp(48px, 12vw, 110px);
-    line-height: 0.9;
-    color: var(--white);
-    letter-spacing: -1px;
-    margin-bottom: 12px;
-  }
-
-  h1 span {
-    color: var(--red);
-    display: block;
-  }
-
-  .subtitle {
-    font-size: 17px;
-    font-weight: 400;
-    color: rgba(245,240,232,0.75);
-    max-width: 560px;
-    margin: 20px auto 0;
-    line-height: 1.6;
-  }
-
-  .date-badge {
-    display: inline-block;
-    background: var(--red);
-    color: white;
-    font-family: 'Anton', sans-serif;
-    font-size: 14px;
-    letter-spacing: 2px;
-    padding: 6px 16px;
-    margin-top: 24px;
-  }
-
-  /* DIVIDER */
-  .divider {
-    width: 100%;
-    height: 3px;
-    background: repeating-linear-gradient(90deg, var(--red) 0px, var(--red) 20px, transparent 20px, transparent 28px);
-    margin: 40px 0;
-  }
-
-  /* STEP SECTION */
-  .section {
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
-
-  .section-label {
-    font-family: 'Anton', sans-serif;
-    font-size: 13px;
-    letter-spacing: 3px;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: 16px;
-  }
-
-  /* MESSAGE BOX */
-  .message-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-left: 3px solid var(--red);
-    padding: 28px;
-    margin-bottom: 16px;
-    position: relative;
-  }
-
-  .message-card h3 {
-    font-family: 'Anton', sans-serif;
-    font-size: 18px;
-    letter-spacing: 1px;
-    margin-bottom: 12px;
-    color: var(--gold);
-  }
-
-  .message-card p {
-    font-size: 14px;
-    line-height: 1.8;
-    color: rgba(245,240,232,0.85);
-    margin-bottom: 16px;
-  }
-
-  textarea {
-    width: 100%;
-    background: rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.15);
-    color: var(--cream);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    line-height: 1.7;
-    padding: 16px;
-    resize: vertical;
-    min-height: 180px;
-    margin-bottom: 16px;
-  }
-
-  textarea:focus { outline: 1px solid var(--gold); }
-
-  /* GROUP LABELS */
-  .recipient-group-label {
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: rgba(245,240,232,0.4);
-    margin: 16px 0 8px;
-    font-weight: 700;
-  }
-
-  /* SELECT ALL BUTTON */
-  .btn-select-all {
-    display: inline-block;
-    background: rgba(244,168,0,0.15);
-    border: 1px solid var(--gold);
-    color: var(--gold);
-    font-family: 'Anton', sans-serif;
-    font-size: 13px;
-    letter-spacing: 2px;
-    padding: 8px 18px;
-    cursor: pointer;
-    margin-bottom: 12px;
-    transition: all 0.15s;
-    text-transform: uppercase;
-  }
-  .btn-select-all:hover { background: rgba(244,168,0,0.25); }
-
-  /* RECIPIENT CHIPS */
-  .recipients {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 8px;
-  }
-
-  .chip {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 2px;
-    padding: 6px 12px;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.15s;
-    user-select: none;
-  }
-
-  .chip.active {
-    background: rgba(232,0,13,0.2);
-    border-color: var(--red);
-    color: white;
-  }
-
-  .chip:hover { background: rgba(255,255,255,0.12); }
-
-  .chip .dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.3);
-    flex-shrink: 0;
-  }
-
-  .chip.active .dot { background: var(--red); }
-
-  /* BUTTONS */
-  .btn-primary {
-    display: block;
-    width: 100%;
-    background: var(--red);
-    color: white;
-    font-family: 'Anton', sans-serif;
-    font-size: 20px;
-    letter-spacing: 2px;
-    text-align: center;
-    padding: 18px;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background 0.15s, transform 0.1s;
-    margin-bottom: 10px;
-  }
-
-  .btn-primary:hover { background: #c8000b; transform: translateY(-1px); }
-  .btn-primary:active { transform: translateY(0); }
-
-  .btn-secondary {
-    display: block;
-    width: 100%;
-    background: transparent;
-    color: var(--cream);
-    font-family: 'Anton', sans-serif;
-    font-size: 16px;
-    letter-spacing: 2px;
-    text-align: center;
-    padding: 14px;
-    border: 1px solid rgba(255,255,255,0.25);
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.15s;
-    margin-bottom: 10px;
-  }
-
-  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
-
-  /* QR CODE */
-  .qr-section {
-    margin-top: 56px;
-    text-align: center;
-    padding: 40px 24px;
-    background: rgba(255,255,255,0.03);
-    border-top: 1px solid rgba(255,255,255,0.08);
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-  }
-
-  .qr-section h2 {
-    font-family: 'Anton', sans-serif;
-    font-size: 32px;
-    color: var(--white);
-    margin-bottom: 8px;
-  }
-
-  .qr-section p {
-    color: rgba(245,240,232,0.6);
-    font-size: 14px;
-    margin-bottom: 28px;
-  }
-
-  #qrcode {
-    display: inline-block;
-    background: white;
-    padding: 16px;
-    margin-bottom: 20px;
-  }
-
-  .qr-url {
-    font-size: 13px;
-    color: var(--gold);
-    letter-spacing: 1px;
-    word-break: break-all;
-  }
-
-  .share-buttons {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 20px;
-  }
-
-  .share-btn {
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.15);
-    color: var(--cream);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    padding: 10px 20px;
-    cursor: pointer;
-    text-decoration: none;
-    letter-spacing: 1px;
-    transition: all 0.15s;
-  }
-
-  .share-btn:hover { background: rgba(255,255,255,0.14); border-color: var(--gold); color: var(--gold); }
-
-  /* TOAST */
-  .toast {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%) translateY(80px);
-    background: var(--gold);
-    color: var(--navy);
-    font-family: 'Anton', sans-serif;
-    font-size: 16px;
-    letter-spacing: 1px;
-    padding: 14px 28px;
-    z-index: 999;
-    transition: transform 0.3s ease;
-    white-space: nowrap;
-  }
-
-  .toast.show { transform: translateX(-50%) translateY(0); }
-
-  /* FOOTER */
-  footer {
-    text-align: center;
-    padding: 32px 24px;
-    color: rgba(245,240,232,0.3);
-    font-size: 12px;
-    letter-spacing: 1px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-  }
-
-  /* ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .hero, .section, .qr-section, .counter-section {
-    animation: fadeUp 0.6s ease both;
-  }
-
-  .section { animation-delay: 0.15s; }
-  .qr-section { animation-delay: 0.25s; }
-
-</style>
-</head>
-<body>
-
-<!-- HERO -->
-<div class="hero">
-  <div class="eyebrow">No Kings · Keep the Pressure On · Take Action Now</div>
-  <h1>DON'T <span>STOP.</span></h1>
-  <p class="subtitle">You showed up. Now keep the pressure on. Send a message directly to the White House, the Cabinet, and your representatives — in 60 seconds.</p>
-  <span class="date-badge">THE PRESSURE DOESN'T STOP</span>
-</div>
-
-<div class="divider"></div>
-
-<!-- MAIN ACTION -->
-<div class="section">
-  <div class="section-label">Step 1 — Customize your message</div>
-
-  <div class="message-card">
-    <h3>Your Message</h3>
-    <p>Edit this however you like — make it personal. Personal messages have more impact.</p>
-    <textarea id="messageText">I am writing as a deeply concerned American citizen.
-
-We believe in democracy, the rule of law, separation of powers, and a government that serves all Americans — not a monarchy, not a political class, not the ultra-wealthy.
-
-I marched. I am organized. I am watching. And I vote.
-
-I urge you to uphold the Constitution you swore to protect, respect the independence of the courts and Congress, and remember that you serve the American people — not any single person.
-
-This is not going away.
-
-Sincerely,
-A constituent who is paying attention.</textarea>
-  </div>
-
-  <div class="section-label" style="margin-top:32px;">Step 2 — Choose who to contact</div>
-
-  <!-- SELECT ALL CABINET -->
-  <button class="btn-select-all" onclick="selectAllCabinet()">⚡ SELECT ALL CABINET</button>
-
-  <div class="recipient-group-label">White House</div>
-  <div class="recipients" id="whitehouseChips">
-    <div class="chip active" data-email="president@whitehouse.gov" data-name="The White House" onclick="toggleChip(this)">
-      <span class="dot"></span> The White House
-    </div>
-    <div class="chip" data-email="vp@whitehouse.gov" data-name="Vice President" onclick="toggleChip(this)">
-      <span class="dot"></span> Vice President
-    </div>
-  </div>
-
-  <div class="recipient-group-label">Cabinet — Email</div>
-  <div class="recipients" id="cabinetEmailChips">
-    <div class="chip" data-email="info@rubio.senate.gov" data-name="Sec. Marco Rubio (State)" onclick="toggleChip(this)">
-      <span class="dot"></span> Rubio (State)
-    </div>
-    <div class="chip" data-email="pete.hegseth@defense.gov" data-name="Sec. Pete Hegseth (Defense)" onclick="toggleChip(this)">
-      <span class="dot"></span> Hegseth (Defense)
-    </div>
-    <div class="chip" data-email="AskDOJ@usdoj.gov" data-name="AG Pam Bondi (DOJ)" onclick="toggleChip(this)">
-      <span class="dot"></span> Bondi (DOJ)
-    </div>
-  </div>
-
-  <p style="font-size:12px; color:rgba(245,240,232,0.4); margin-bottom:20px;">
-    Find your Senator or Rep at <a href="https://www.congress.gov/members/find-your-member" target="_blank" style="color:var(--gold);">congress.gov</a>.
-  </p>
-
-  <div style="margin-bottom:24px;">
-    <input id="customEmail" type="email" placeholder="+ Add your Senator or Rep's email address"
-      style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.15); color:var(--cream); font-family:'DM Sans',sans-serif; font-size:14px; padding:12px 16px; margin-bottom:8px;">
-  </div>
-
-  <div class="section-label">Step 3 — Send it</div>
-
-  <button class="btn-primary" onclick="sendEmail()">✉ SEND NOW — ONE CLICK</button>
-  <a class="btn-secondary" href="#qr-anchor">📱 GET THE QR CODE TO SHARE</a>
-
-  <p style="font-size:12px; color:rgba(245,240,232,0.35); text-align:center; margin-top:12px; line-height:1.6;">
-    Opens your mail app pre-filled and ready to send. Your email address is never collected by this site.
-  </p>
-</div>
-
-<div class="divider" style="margin-top:48px;"></div>
-
-<!-- QR CODE -->
-<div class="qr-section" id="qr-anchor">
-  <h2>PRINT THIS. SHARE THIS.</h2>
-  <p>Show this QR code at protests, in your group chats, on social media. Anyone who scans it can take action instantly.</p>
-  <div id="qrcode"></div>
-  <div class="qr-url" id="qrUrl">Generating QR code for this page…</div>
-
-  <div class="share-buttons">
-    <a class="share-btn" href="#" onclick="copyLink()">📋 COPY LINK</a>
-    <a class="share-btn" href="#" onclick="shareTwitter()">𝕏 SHARE ON X</a>
-    <a class="share-btn" href="#" onclick="shareFacebook()">SHARE ON FACEBOOK</a>
-    <a class="share-btn" href="#" onclick="window.print()">🖨 PRINT QR CODE</a>
-  </div>
-</div>
-
-<!-- TOAST -->
-<div class="toast" id="toast">LINK COPIED!</div>
-
-<footer>
-  No data collected. No accounts needed. Just your voice. · No Kings — Keep the Pressure On.
-</footer>
-
-<script>
-  const PAGE_URL = window.location.href;
-
-  // QR CODE
-  window.addEventListener('load', () => {
-    new QRCode(document.getElementById('qrcode'), {
-      text: PAGE_URL,
-      width: 200,
-      height: 200,
-      colorDark: '#0B1F3A',
-      colorLight: '#ffffff',
-      correctLevel: QRCode.CorrectLevel.H
-    });
-    document.getElementById('qrUrl').textContent = PAGE_URL;
-  });
-
-  // CHIP TOGGLE
-  function toggleChip(el) {
-    el.classList.toggle('active');
-  }
-
-  // SELECT ALL CABINET (all chips in whitehouse + cabinet groups)
-  function selectAllCabinet() {
-    const allChips = document.querySelectorAll('#whitehouseChips .chip, #cabinetEmailChips .chip');
-    // Check if all are already active
-    const allActive = Array.from(allChips).every(c => c.classList.contains('active'));
-    allChips.forEach(chip => {
-      if (allActive) {
-        chip.classList.remove('active');
-      } else {
-        chip.classList.add('active');
-      }
-    });
-  }
-
-  // SEND EMAIL + OPEN WEB FORMS
-  function sendEmail() {
-    const message = document.getElementById('messageText').value.trim();
-    const customEmail = document.getElementById('customEmail').value.trim();
-
-    // Collect email recipients
-    const emailChips = document.querySelectorAll('#whitehouseChips .chip.active, #cabinetEmailChips .chip.active');
-    let emails = [];
-    emailChips.forEach(chip => {
-      const email = chip.dataset.email;
-      if (email && !email.includes('yoursenator')) emails.push(email);
-    });
-    if (customEmail) emails.push(customEmail);
-
-    if (emails.length === 0) {
-      alert('Please select at least one recipient above, or add a custom email address.');
-      return;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>No Kings — Keep the Pressure On</title>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@300;400;500;700&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    :root {
+      --red: #E8000D;
+      --navy: #0B1F3A;
+      --cream: #F5F0E8;
+      --gold: #F4A800;
+      --white: #FFFFFF;
     }
 
-    const subject = encodeURIComponent('Message from a constituent: No Kings — Keep the Pressure On');
-    const body = encodeURIComponent(message);
-    const to = emails.join(',');
-    window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
-  }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  // SHARE FUNCTIONS
-  function copyLink() {
-    navigator.clipboard.writeText(PAGE_URL).then(() => {
-      const toast = document.getElementById('toast');
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 2500);
+    body {
+      background: var(--navy);
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      padding: 60px 24px 40px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(232, 0, 13, 0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(48px, 12vw, 110px);
+      line-height: 0.9;
+      color: var(--white);
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+    }
+
+    h1 span {
+      color: var(--red);
+      display: block;
+    }
+
+    .subtitle {
+      font-size: 17px;
+      font-weight: 400;
+      color: rgba(245, 240, 232, 0.75);
+      max-width: 560px;
+      margin: 20px auto 0;
+      line-height: 1.6;
+    }
+
+    .date-badge {
+      display: inline-block;
+      background: var(--red);
+      color: white;
+      font-family: 'Anton', sans-serif;
+      font-size: 14px;
+      letter-spacing: 2px;
+      padding: 6px 16px;
+      margin-top: 24px;
+    }
+
+    /* DIVIDER */
+    .divider {
+      width: 100%;
+      height: 3px;
+      background: repeating-linear-gradient(90deg, var(--red) 0px, var(--red) 20px, transparent 20px, transparent 28px);
+      margin: 40px 0;
+    }
+
+    /* STEP SECTION */
+    .section {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .section-label {
+      font-family: 'Anton', sans-serif;
+      font-size: 13px;
+      letter-spacing: 3px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    /* MESSAGE BOX */
+    .message-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-left: 3px solid var(--red);
+      padding: 28px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .message-card h3 {
+      font-family: 'Anton', sans-serif;
+      font-size: 18px;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      color: var(--gold);
+    }
+
+    .message-card p {
+      font-size: 14px;
+      line-height: 1.8;
+      color: rgba(245, 240, 232, 0.85);
+      margin-bottom: 16px;
+    }
+
+    textarea {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      line-height: 1.7;
+      padding: 16px;
+      resize: vertical;
+      min-height: 180px;
+      margin-bottom: 16px;
+    }
+
+    textarea:focus {
+      outline: 1px solid var(--gold);
+    }
+
+    /* GROUP LABELS */
+    .recipient-group-label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(245, 240, 232, 0.4);
+      margin: 16px 0 8px;
+      font-weight: 700;
+    }
+
+    /* SELECT ALL BUTTON */
+    .btn-select-all {
+      display: inline-block;
+      background: rgba(244, 168, 0, 0.15);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: 'Anton', sans-serif;
+      font-size: 13px;
+      letter-spacing: 2px;
+      padding: 8px 18px;
+      cursor: pointer;
+      margin-bottom: 12px;
+      transition: all 0.15s;
+      text-transform: uppercase;
+    }
+
+    .btn-select-all:hover {
+      background: rgba(244, 168, 0, 0.25);
+    }
+
+    /* RECIPIENT CHIPS */
+    .recipients {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 2px;
+      padding: 6px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+
+    .chip.active {
+      background: rgba(232, 0, 13, 0.2);
+      border-color: var(--red);
+      color: white;
+    }
+
+    .chip:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .chip .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      flex-shrink: 0;
+    }
+
+    .chip.active .dot {
+      background: var(--red);
+    }
+
+    /* BUTTONS */
+    .btn-primary {
+      display: block;
+      width: 100%;
+      background: var(--red);
+      color: white;
+      font-family: 'Anton', sans-serif;
+      font-size: 20px;
+      letter-spacing: 2px;
+      text-align: center;
+      padding: 18px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s, transform 0.1s;
+      margin-bottom: 10px;
+    }
+
+    .btn-primary:hover {
+      background: #c8000b;
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      display: block;
+      width: 100%;
+      background: transparent;
+      color: var(--cream);
+      font-family: 'Anton', sans-serif;
+      font-size: 16px;
+      letter-spacing: 2px;
+      text-align: center;
+      padding: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s;
+      margin-bottom: 10px;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* QR CODE */
+    .qr-section {
+      margin-top: 56px;
+      text-align: center;
+      padding: 40px 24px;
+      background: rgba(255, 255, 255, 0.03);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .qr-section h2 {
+      font-family: 'Anton', sans-serif;
+      font-size: 32px;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .qr-section p {
+      color: rgba(245, 240, 232, 0.6);
+      font-size: 14px;
+      margin-bottom: 28px;
+    }
+
+    #qrcode {
+      display: inline-block;
+      background: white;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .qr-url {
+      font-size: 13px;
+      color: var(--gold);
+      letter-spacing: 1px;
+      word-break: break-all;
+    }
+
+    .share-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .share-btn {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 10px 20px;
+      cursor: pointer;
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: all 0.15s;
+    }
+
+    .share-btn:hover {
+      background: rgba(255, 255, 255, 0.14);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--gold);
+      color: var(--navy);
+      font-family: 'Anton', sans-serif;
+      font-size: 16px;
+      letter-spacing: 1px;
+      padding: 14px 28px;
+      z-index: 999;
+      transition: transform 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      color: rgba(245, 240, 232, 0.3);
+      font-size: 12px;
+      letter-spacing: 1px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero,
+    .section,
+    .qr-section,
+    .counter-section {
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .section {
+      animation-delay: 0.15s;
+    }
+
+    .qr-section {
+      animation-delay: 0.25s;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="eyebrow">Keep the Pressure On · Take Action Now</div>
+    <h1>DON'T <span>STOP.</span></h1>
+    <p class="subtitle">You showed up. Now keep the pressure on. Send a message directly to the White House, the
+      Cabinet, and your representatives — in 60 seconds.</p>
+    <span class="date-badge">THE PRESSURE DOESN'T STOP</span>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- MAIN ACTION -->
+  <div class="section">
+    <div class="section-label">Step 1 — Customize your message</div>
+
+    <div class="message-card">
+      <h3>Your Message</h3>
+      <p>Edit this however you like — make it personal. Personal messages have more impact.</p>
+      <textarea id="messageText">I am writing as a deeply concerned American citizen.
+
+        We believe in democracy, the rule of law, separation of powers, and a government that serves all Americans — not
+        a monarchy, not a political class, not the ultra-wealthy.
+
+        I marched. I am organized. I am watching. And I vote.
+
+        I urge you to uphold the Constitution you swore to protect, respect the independence of the courts and Congress,
+        and remember that you serve the American people — not any single person.
+
+        This is not going away.
+
+        Sincerely,
+        A constituent who is paying attention.</textarea>
+    </div>
+
+    <div class="section-label" style="margin-top:32px;">Step 2 — Choose who to contact</div>
+
+    <!-- SELECT ALL CABINET -->
+    <button class="btn-select-all" onclick="selectAllCabinet()">⚡ SELECT ALL CABINET</button>
+
+    <div class="recipient-group-label">White House</div>
+    <div class="recipients" id="whitehouseChips">
+      <div class="chip active" data-email="president@whitehouse.gov" data-name="The White House"
+        onclick="toggleChip(this)">
+        <span class="dot"></span> The White House
+      </div>
+      <div class="chip" data-email="vp@whitehouse.gov" data-name="Vice President" onclick="toggleChip(this)">
+        <span class="dot"></span> Vice President
+      </div>
+    </div>
+
+    <div class="recipient-group-label">Cabinet — Email</div>
+    <div class="recipients" id="cabinetEmailChips">
+      <div class="chip" data-email="info@rubio.senate.gov" data-name="Sec. Marco Rubio (State)"
+        onclick="toggleChip(this)">
+        <span class="dot"></span> Rubio (State)
+      </div>
+      <div class="chip" data-email="pete.hegseth@defense.gov" data-name="Sec. Pete Hegseth (Defense)"
+        onclick="toggleChip(this)">
+        <span class="dot"></span> Hegseth (Defense)
+      </div>
+      <div class="chip" data-email="AskDOJ@usdoj.gov" data-name="AG Pam Bondi (DOJ)" onclick="toggleChip(this)">
+        <span class="dot"></span> Bondi (DOJ)
+      </div>
+    </div>
+
+    <p style="font-size:12px; color:rgba(245,240,232,0.4); margin-bottom:20px;">
+      Find your Senator or Rep at <a href="https://www.congress.gov/members/find-your-member" target="_blank"
+        style="color:var(--gold);">congress.gov</a>.
+    </p>
+
+    <div style="margin-bottom:24px;">
+      <input id="customEmail" type="email" placeholder="+ Add your Senator or Rep's email address"
+        style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.15); color:var(--cream); font-family:'DM Sans',sans-serif; font-size:14px; padding:12px 16px; margin-bottom:8px;">
+    </div>
+
+    <div class="section-label">Step 3 — Send it</div>
+
+    <button class="btn-primary" onclick="sendEmail()">✉ SEND NOW — ONE CLICK</button>
+    <a class="btn-secondary" href="#qr-anchor">📱 GET THE QR CODE TO SHARE</a>
+
+    <p style="font-size:12px; color:rgba(245,240,232,0.35); text-align:center; margin-top:12px; line-height:1.6;">
+      Opens your mail app pre-filled and ready to send. Your email address is never collected by this site.
+    </p>
+  </div>
+
+  <div class="divider" style="margin-top:48px;"></div>
+
+  <!-- QR CODE -->
+  <div class="qr-section" id="qr-anchor">
+    <h2>PRINT THIS. SHARE THIS.</h2>
+    <p>Show this QR code at protests, in your group chats, on social media. Anyone who scans it can take action
+      instantly.</p>
+    <div id="qrcode"></div>
+    <div class="qr-url" id="qrUrl">Generating QR code for this page…</div>
+
+    <div class="share-buttons">
+      <a class="share-btn" href="#" onclick="copyLink()">📋 COPY LINK</a>
+      <a class="share-btn" href="#" onclick="shareTwitter()">𝕏 SHARE ON X</a>
+      <a class="share-btn" href="#" onclick="shareFacebook()">SHARE ON FACEBOOK</a>
+      <a class="share-btn" href="#" onclick="window.print()">🖨 PRINT QR CODE</a>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">LINK COPIED!</div>
+
+  <footer>
+    No data collected. No accounts needed. Just your voice. · No Kings — Keep the Pressure On.
+  </footer>
+
+  <script>
+    const PAGE_URL = window.location.href;
+
+    // QR CODE
+    window.addEventListener('load', () => {
+      new QRCode(document.getElementById('qrcode'), {
+        text: PAGE_URL,
+        width: 200,
+        height: 200,
+        colorDark: '#0B1F3A',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+      });
+      document.getElementById('qrUrl').textContent = PAGE_URL;
     });
-  }
 
-  function shareTwitter() {
-    const text = encodeURIComponent('Keep the pressure on. Send a message to the White House and Cabinet in 60 seconds:');
-    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(PAGE_URL)}`, '_blank');
-  }
+    // CHIP TOGGLE
+    function toggleChip(el) {
+      el.classList.toggle('active');
+    }
 
-  function shareFacebook() {
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(PAGE_URL)}`, '_blank');
-  }
-</script>
+    // SELECT ALL CABINET (all chips in whitehouse + cabinet groups)
+    function selectAllCabinet() {
+      const allChips = document.querySelectorAll('#whitehouseChips .chip, #cabinetEmailChips .chip');
+      // Check if all are already active
+      const allActive = Array.from(allChips).every(c => c.classList.contains('active'));
+      allChips.forEach(chip => {
+        if (allActive) {
+          chip.classList.remove('active');
+        } else {
+          chip.classList.add('active');
+        }
+      });
+    }
+
+    // SEND EMAIL + OPEN WEB FORMS
+    function sendEmail() {
+      const message = document.getElementById('messageText').value.trim();
+      const customEmail = document.getElementById('customEmail').value.trim();
+
+      // Collect email recipients
+      const emailChips = document.querySelectorAll('#whitehouseChips .chip.active, #cabinetEmailChips .chip.active');
+      let emails = [];
+      emailChips.forEach(chip => {
+        const email = chip.dataset.email;
+        if (email && !email.includes('yoursenator')) emails.push(email);
+      });
+      if (customEmail) emails.push(customEmail);
+
+      if (emails.length === 0) {
+        alert('Please select at least one recipient above, or add a custom email address.');
+        return;
+      }
+
+      const subject = encodeURIComponent('Message from a constituent: No Kings — Keep the Pressure On');
+      const body = encodeURIComponent(message);
+      const to = emails.join(',');
+      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+    }
+
+    // SHARE FUNCTIONS
+    function copyLink() {
+      navigator.clipboard.writeText(PAGE_URL).then(() => {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+      });
+    }
+
+    function shareTwitter() {
+      const text = encodeURIComponent('Keep the pressure on. Send a message to the White House and Cabinet in 60 seconds:');
+      window.open(`https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(PAGE_URL)}`, '_blank');
+    }
+
+    function shareFacebook() {
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(PAGE_URL)}`, '_blank');
+    }
+  </script>
 
 </body>
+
 </html>
