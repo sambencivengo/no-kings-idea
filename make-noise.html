@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Make Noise — March 28 Action</title>
+<title>No Kings — Keep the Pressure On</title>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
@@ -55,7 +55,7 @@
 
   h1 {
     font-family: 'Anton', sans-serif;
-    font-size: clamp(56px, 14vw, 120px);
+    font-size: clamp(48px, 12vw, 110px);
     line-height: 0.9;
     color: var(--white);
     letter-spacing: -1px;
@@ -71,7 +71,7 @@
     font-size: 17px;
     font-weight: 400;
     color: rgba(245,240,232,0.75);
-    max-width: 520px;
+    max-width: 560px;
     margin: 20px auto 0;
     line-height: 1.6;
   }
@@ -108,7 +108,7 @@
     letter-spacing: 3px;
     color: var(--gold);
     text-transform: uppercase;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
   }
 
   /* MESSAGE BOX */
@@ -146,18 +146,45 @@
     line-height: 1.7;
     padding: 16px;
     resize: vertical;
-    min-height: 160px;
+    min-height: 180px;
     margin-bottom: 16px;
   }
 
   textarea:focus { outline: 1px solid var(--gold); }
+
+  /* GROUP LABELS */
+  .recipient-group-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.4);
+    margin: 16px 0 8px;
+    font-weight: 700;
+  }
+
+  /* SELECT ALL BUTTON */
+  .btn-select-all {
+    display: inline-block;
+    background: rgba(244,168,0,0.15);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Anton', sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    padding: 8px 18px;
+    cursor: pointer;
+    margin-bottom: 12px;
+    transition: all 0.15s;
+    text-transform: uppercase;
+  }
+  .btn-select-all:hover { background: rgba(244,168,0,0.25); }
 
   /* RECIPIENT CHIPS */
   .recipients {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-bottom: 16px;
+    margin-bottom: 8px;
   }
 
   .chip {
@@ -292,30 +319,6 @@
 
   .share-btn:hover { background: rgba(255,255,255,0.14); border-color: var(--gold); color: var(--gold); }
 
-  /* COUNTER */
-  .counter-section {
-    text-align: center;
-    padding: 48px 24px;
-    max-width: 700px;
-    margin: 0 auto;
-  }
-
-  .counter-num {
-    font-family: 'Anton', sans-serif;
-    font-size: clamp(60px, 15vw, 100px);
-    color: var(--red);
-    line-height: 1;
-    display: block;
-  }
-
-  .counter-label {
-    font-size: 13px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: rgba(245,240,232,0.5);
-    margin-top: 8px;
-  }
-
   /* TOAST */
   .toast {
     position: fixed;
@@ -357,25 +360,20 @@
 
   .section { animation-delay: 0.15s; }
   .qr-section { animation-delay: 0.25s; }
+
 </style>
 </head>
 <body>
 
 <!-- HERO -->
 <div class="hero">
-  <div class="eyebrow">March 28 · No Kings Day · Take Action</div>
-  <h1>MAKE <span>NOISE.</span></h1>
-  <p class="subtitle">You showed up. Now make sure they hear you. Send a message directly to the White House, your Senators, and your Congressional Representative — in 60 seconds.</p>
-  <span class="date-badge">MARCH 28, 2025 — AND BEYOND</span>
+  <div class="eyebrow">No Kings · Keep the Pressure On · Take Action Now</div>
+  <h1>DON'T <span>STOP.</span></h1>
+  <p class="subtitle">You showed up. Now keep the pressure on. Send a message directly to the White House, the Cabinet, and your representatives — in 60 seconds.</p>
+  <span class="date-badge">THE PRESSURE DOESN'T STOP</span>
 </div>
 
 <div class="divider"></div>
-
-<!-- COUNTER -->
-<div class="counter-section">
-  <span class="counter-num" id="counter">0</span>
-  <div class="counter-label">Messages sent from this page</div>
-</div>
 
 <!-- MAIN ACTION -->
 <div class="section">
@@ -384,13 +382,15 @@
   <div class="message-card">
     <h3>Your Message</h3>
     <p>Edit this however you like — make it personal. Personal messages have more impact.</p>
-    <textarea id="messageText">I am writing as a deeply concerned American citizen. I participated in the No Kings Day march and I want you to know: this is not going away.
+    <textarea id="messageText">I am writing as a deeply concerned American citizen.
 
 We believe in democracy, the rule of law, separation of powers, and a government that serves all Americans — not a monarchy, not a political class, not the ultra-wealthy.
 
-We are watching. We are organized. And we vote.
+I marched. I am organized. I am watching. And I vote.
 
-I urge you to stand up for the Constitution you swore to protect.
+I urge you to uphold the Constitution you swore to protect, respect the independence of the courts and Congress, and remember that you serve the American people — not any single person.
+
+This is not going away.
 
 Sincerely,
 A constituent who is paying attention.</textarea>
@@ -398,34 +398,48 @@ A constituent who is paying attention.</textarea>
 
   <div class="section-label" style="margin-top:32px;">Step 2 — Choose who to contact</div>
 
-  <div class="recipients" id="recipientChips">
+  <!-- SELECT ALL CABINET -->
+  <button class="btn-select-all" onclick="selectAllCabinet()">⚡ SELECT ALL CABINET</button>
+
+  <div class="recipient-group-label">White House</div>
+  <div class="recipients" id="whitehouseChips">
     <div class="chip active" data-email="president@whitehouse.gov" data-name="The White House" onclick="toggleChip(this)">
       <span class="dot"></span> The White House
     </div>
-    <div class="chip active" data-email="info@rubio.senate.gov" data-name="Sen. Marco Rubio" onclick="toggleChip(this)">
-      <span class="dot"></span> Sen. Marco Rubio
-    </div>
-    <div class="chip" data-email="pete.hegseth@defense.gov" data-name="Sec. Pete Hegseth" onclick="toggleChip(this)">
-      <span class="dot"></span> Pete Hegseth (DoD)
-    </div>
-    <div class="chip" data-email="senator@yoursenator.gov" data-name="Your Senator" onclick="toggleChip(this)">
-      <span class="dot"></span> Your Senator (add below)
+    <div class="chip" data-email="vp@whitehouse.gov" data-name="Vice President" onclick="toggleChip(this)">
+      <span class="dot"></span> Vice President
     </div>
   </div>
+
+  <div class="recipient-group-label">Cabinet — Email</div>
+  <div class="recipients" id="cabinetEmailChips">
+    <div class="chip" data-email="info@rubio.senate.gov" data-name="Sec. Marco Rubio (State)" onclick="toggleChip(this)">
+      <span class="dot"></span> Rubio (State)
+    </div>
+    <div class="chip" data-email="pete.hegseth@defense.gov" data-name="Sec. Pete Hegseth (Defense)" onclick="toggleChip(this)">
+      <span class="dot"></span> Hegseth (Defense)
+    </div>
+    <div class="chip" data-email="AskDOJ@usdoj.gov" data-name="AG Pam Bondi (DOJ)" onclick="toggleChip(this)">
+      <span class="dot"></span> Bondi (DOJ)
+    </div>
+  </div>
+
+  <p style="font-size:12px; color:rgba(245,240,232,0.4); margin-bottom:20px;">
+    Find your Senator or Rep at <a href="https://www.congress.gov/members/find-your-member" target="_blank" style="color:var(--gold);">congress.gov</a>.
+  </p>
 
   <div style="margin-bottom:24px;">
     <input id="customEmail" type="email" placeholder="+ Add your Senator or Rep's email address"
       style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.15); color:var(--cream); font-family:'DM Sans',sans-serif; font-size:14px; padding:12px 16px; margin-bottom:8px;">
-    <small style="color:rgba(245,240,232,0.4); font-size:12px;">Find your rep at <a href="https://www.congress.gov/members/find-your-member" target="_blank" style="color:var(--gold);">congress.gov</a></small>
   </div>
 
   <div class="section-label">Step 3 — Send it</div>
 
-  <button class="btn-primary" onclick="sendEmail()">✉ SEND NOW — OPEN IN EMAIL</button>
-  <a class="btn-secondary" href="#qr-anchor">📱 GET THE QR CODE TO SHARE AT PROTESTS</a>
+  <button class="btn-primary" onclick="sendEmail()">✉ SEND NOW — ONE CLICK</button>
+  <a class="btn-secondary" href="#qr-anchor">📱 GET THE QR CODE TO SHARE</a>
 
   <p style="font-size:12px; color:rgba(245,240,232,0.35); text-align:center; margin-top:12px; line-height:1.6;">
-    This opens your default email app pre-filled and ready to send. Your email address is never collected by this site.
+    Opens your mail app pre-filled and ready to send. Your email address is never collected by this site.
   </p>
 </div>
 
@@ -450,29 +464,11 @@ A constituent who is paying attention.</textarea>
 <div class="toast" id="toast">LINK COPIED!</div>
 
 <footer>
-  No data collected. No accounts needed. Just your voice. · Built for March 28 and beyond.
+  No data collected. No accounts needed. Just your voice. · No Kings — Keep the Pressure On.
 </footer>
 
 <script>
-  // PAGE URL (in production this would be your real hosted URL)
   const PAGE_URL = window.location.href;
-
-  // COUNTER (localStorage for demo — in production use a real backend)
-  let sendCount = parseInt(localStorage.getItem('sendCount') || '0');
-  function animateCounter(target) {
-    const el = document.getElementById('counter');
-    const start = parseInt(el.textContent.replace(/,/g, '')) || 0;
-    const duration = 1200;
-    const startTime = performance.now();
-    function update(now) {
-      const t = Math.min((now - startTime) / duration, 1);
-      const val = Math.round(start + (target - start) * (1 - Math.pow(1 - t, 3)));
-      el.textContent = val.toLocaleString();
-      if (t < 1) requestAnimationFrame(update);
-    }
-    requestAnimationFrame(update);
-  }
-  animateCounter(sendCount + 1247); // seed with a base number for demo
 
   // QR CODE
   window.addEventListener('load', () => {
@@ -492,20 +488,32 @@ A constituent who is paying attention.</textarea>
     el.classList.toggle('active');
   }
 
-  // SEND EMAIL
+  // SELECT ALL CABINET (all chips in whitehouse + cabinet groups)
+  function selectAllCabinet() {
+    const allChips = document.querySelectorAll('#whitehouseChips .chip, #cabinetEmailChips .chip');
+    // Check if all are already active
+    const allActive = Array.from(allChips).every(c => c.classList.contains('active'));
+    allChips.forEach(chip => {
+      if (allActive) {
+        chip.classList.remove('active');
+      } else {
+        chip.classList.add('active');
+      }
+    });
+  }
+
+  // SEND EMAIL + OPEN WEB FORMS
   function sendEmail() {
     const message = document.getElementById('messageText').value.trim();
     const customEmail = document.getElementById('customEmail').value.trim();
 
-    const chips = document.querySelectorAll('.chip.active');
+    // Collect email recipients
+    const emailChips = document.querySelectorAll('#whitehouseChips .chip.active, #cabinetEmailChips .chip.active');
     let emails = [];
-
-    chips.forEach(chip => {
+    emailChips.forEach(chip => {
       const email = chip.dataset.email;
-      // Skip placeholder
-      if (!email.includes('yoursenator')) emails.push(email);
+      if (email && !email.includes('yoursenator')) emails.push(email);
     });
-
     if (customEmail) emails.push(customEmail);
 
     if (emails.length === 0) {
@@ -513,16 +521,10 @@ A constituent who is paying attention.</textarea>
       return;
     }
 
-    const subject = encodeURIComponent('Message from a constituent: No Kings Day March');
+    const subject = encodeURIComponent('Message from a constituent: No Kings — Keep the Pressure On');
     const body = encodeURIComponent(message);
     const to = emails.join(',');
-
     window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
-
-    // Increment counter
-    sendCount++;
-    localStorage.setItem('sendCount', sendCount);
-    animateCounter(sendCount + 1247);
   }
 
   // SHARE FUNCTIONS
@@ -535,7 +537,7 @@ A constituent who is paying attention.</textarea>
   }
 
   function shareTwitter() {
-    const text = encodeURIComponent('I marched on March 28. Now I\'m sending messages directly to the White House and Congress. You can too — takes 60 seconds:');
+    const text = encodeURIComponent('Keep the pressure on. Send a message to the White House and Cabinet in 60 seconds:');
     window.open(`https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(PAGE_URL)}`, '_blank');
   }
 
