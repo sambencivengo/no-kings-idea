@@ -408,6 +408,18 @@
     .qr-section {
       animation-delay: 0.25s;
     }
+
+    @media print {
+      body * { visibility: hidden; }
+      #qrcode, #qrcode * { visibility: visible; }
+      #qrcode {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 0;
+      }
+    }
   </style>
 </head>
 
@@ -513,6 +525,7 @@
       <a class="share-btn" href="#" onclick="shareTwitter()">𝕏 SHARE ON X</a>
       <a class="share-btn" href="#" onclick="shareFacebook()">SHARE ON FACEBOOK</a>
       <a class="share-btn" href="#" onclick="window.print()">🖨 PRINT QR CODE</a>
+      <a class="share-btn" href="#" onclick="downloadQR()">⬇ DOWNLOAD FOR PRINT (1000px)</a>
     </div>
   </div>
 
@@ -599,6 +612,28 @@
 
     function shareFacebook() {
       window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(PAGE_URL)}`, '_blank');
+    }
+
+    function downloadQR() {
+      const hiddenDiv = document.createElement('div');
+      hiddenDiv.style.cssText = 'position:absolute;left:-9999px;top:-9999px;';
+      document.body.appendChild(hiddenDiv);
+      new QRCode(hiddenDiv, {
+        text: PAGE_URL,
+        width: 1000,
+        height: 1000,
+        colorDark: '#0B1F3A',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+      });
+      setTimeout(() => {
+        const canvas = hiddenDiv.querySelector('canvas');
+        const link = document.createElement('a');
+        link.download = 'pressureon-qr-print.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        document.body.removeChild(hiddenDiv);
+      }, 200);
     }
   </script>
 
