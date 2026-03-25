@@ -409,17 +409,6 @@
       animation-delay: 0.25s;
     }
 
-    @media print {
-      body * { visibility: hidden; }
-      #qrcode, #qrcode * { visibility: visible; }
-      #qrcode {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 0;
-      }
-    }
   </style>
 </head>
 
@@ -524,7 +513,7 @@
       <a class="share-btn" href="#" onclick="copyLink()">📋 COPY LINK</a>
       <a class="share-btn" href="#" onclick="shareTwitter()">𝕏 SHARE ON X</a>
       <a class="share-btn" href="#" onclick="shareFacebook()">SHARE ON FACEBOOK</a>
-      <a class="share-btn" href="#" onclick="window.print()">🖨 PRINT QR CODE</a>
+      <a class="share-btn" href="#" onclick="printQR()">🖨 PRINT QR CODE</a>
       <a class="share-btn" href="#" onclick="downloadQR()">⬇ DOWNLOAD FOR PRINT (1000px)</a>
     </div>
   </div>
@@ -612,6 +601,18 @@
 
     function shareFacebook() {
       window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(PAGE_URL)}`, '_blank');
+    }
+
+    function printQR() {
+      const canvas = document.querySelector('#qrcode canvas');
+      const win = window.open('', '_blank');
+      win.document.write(`<!DOCTYPE html><html><head><title>Print QR Code</title>
+        <style>body{margin:0;display:flex;align-items:center;justify-content:center;height:100vh;}
+        img{max-width:90vmin;max-height:90vmin;}</style></head>
+        <body><img src="${canvas.toDataURL('image/png')}"></body></html>`);
+      win.document.close();
+      win.focus();
+      win.onload = () => { win.print(); win.close(); };
     }
 
     function downloadQR() {
