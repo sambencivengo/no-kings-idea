@@ -416,11 +416,16 @@
 
   <!-- HERO -->
   <div class="hero">
+    <img src="No Kings Logo_Horizontal_ForDarkBackgrounds.svg" alt="No Kings" style="max-width:400px; width:80%; margin-bottom:24px;">
     <div class="eyebrow">Keep the Pressure On · Take Action Now</div>
     <h1>DON'T <span>STOP.</span></h1>
     <p class="subtitle">You showed up. Now keep the pressure on. Send a message directly to the White House, the
       Cabinet, and your representatives — in 60 seconds.</p>
     <span class="date-badge">THE PRESSURE DOESN'T STOP</span>
+
+    <p id="emailCountDisplay" style="font-size:28px; color:var(--gold); text-align:center; margin-top:20px; font-weight:600; letter-spacing:0.03em; opacity:0; transition:opacity 0.4s;">
+      ✉ <span id="countNumber">0</span> emails sent via this page
+    </p>
   </div>
 
   <div class="divider"></div>
@@ -466,10 +471,6 @@
 
     <div class="recipient-group-label">Cabinet — Email</div>
     <div class="recipients" id="cabinetEmailChips">
-      <div class="chip" data-email="info@rubio.senate.gov" data-name="Sec. Marco Rubio (State)"
-        onclick="toggleChip(this)">
-        <span class="dot"></span> Rubio (State)
-      </div>
       <div class="chip" data-email="pete.hegseth@defense.gov" data-name="Sec. Pete Hegseth (Defense)"
         onclick="toggleChip(this)">
         <span class="dot"></span> Hegseth (Defense)
@@ -539,6 +540,11 @@
         correctLevel: QRCode.CorrectLevel.H
       });
       document.getElementById('qrUrl').textContent = PAGE_URL;
+
+      fetch('/api/count').then(r => r.json()).then(d => {
+        document.getElementById('countNumber').textContent = d.count.toLocaleString();
+        document.getElementById('emailCountDisplay').style.opacity = '1';
+      }).catch(() => {});
     });
 
     // CHIP TOGGLE
@@ -583,6 +589,11 @@
       const body = encodeURIComponent(message);
       const to = emails.join(',');
       window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+
+      fetch('/api/click', { method: 'POST' }).then(r => r.json()).then(d => {
+        document.getElementById('countNumber').textContent = d.count.toLocaleString();
+        document.getElementById('emailCountDisplay').style.opacity = '1';
+      }).catch(() => {});
     }
 
     // SHARE FUNCTIONS
