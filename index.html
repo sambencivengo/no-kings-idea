@@ -419,85 +419,23 @@
     <img src="No Kings Logo_Horizontal_ForDarkBackgrounds.svg" alt="No Kings" style="max-width:400px; width:80%; margin-bottom:24px;">
     <div class="eyebrow">Don't Stop · Take Action Now</div>
     <h1>KEEP THE <span>PRESSURE ON.</span></h1>
-    <p class="subtitle">You showed up. Now keep the pressure on. Send a message directly to the White House, the
-      Cabinet, and your representatives — in 60 seconds.</p>
+    <p class="subtitle">Now KEEP THE PRESSURE ON by scanning this code which takes you directly to the White House "contact us" page where you can write a personal message, or copy and paste ours in the box to Trump telling him what you REALLY think!</p>
     <span class="date-badge">THE PRESSURE DOESN'T STOP</span>
-
-    <p id="emailCountDisplay" style="font-size:28px; color:var(--gold); text-align:center; margin-top:20px; font-weight:600; letter-spacing:0.03em; opacity:0; transition:opacity 0.4s;">
-      ✉ <span id="countNumber">0</span> emails sent via this page
-    </p>
   </div>
 
   <div class="divider"></div>
 
   <!-- MAIN ACTION -->
   <div class="section">
-    <div class="section-label">Step 1 — Customize your message</div>
+    <div class="section-label">Step 1 — Copy and paste this message into the White House form or write your own and let them know what you think</div>
 
     <div class="message-card">
       <h3>Your Message</h3>
-      <p>Edit this however you like — make it personal. Personal messages have more impact.</p>
-      <textarea id="messageText">I am writing as a deeply concerned American citizen.
-
-        We believe in democracy, the rule of law, separation of powers, and a government that serves all Americans — not
-        a monarchy, not a political class, not the ultra-wealthy.
-
-        I marched. I am organized. I am watching. And I vote.
-
-        I urge you to uphold the Constitution you swore to protect, respect the independence of the courts and Congress,
-        and remember that you serve the American people — not any single person.
-
-        This is not going away.
-
-        Sincerely,
-        A constituent who is paying attention.</textarea>
+      <p>Copy this message and paste it into the White House contact form, or write your own.</p>
+      <textarea id="messageText">Mr Trump, we didn't elect a king! Follow the Constitution and work for the American people. Bring down prices, work with our allies to keep the world safe, and stop acting unilaterally. Work with Congress to pass some legislation that benefits all Americans.</textarea>
     </div>
 
-    <div class="section-label" style="margin-top:32px;">Step 2 — Choose who to contact</div>
-
-    <!-- SELECT ALL CABINET -->
-    <button class="btn-select-all" onclick="selectAllCabinet()">⚡ SELECT ALL CABINET</button>
-
-    <div class="recipient-group-label">White House</div>
-    <div class="recipients" id="whitehouseChips">
-      <div class="chip active" data-email="president@whitehouse.gov" data-name="The White House"
-        onclick="toggleChip(this)">
-        <span class="dot"></span> The White House
-      </div>
-      <div class="chip" data-email="vp@whitehouse.gov" data-name="Vice President" onclick="toggleChip(this)">
-        <span class="dot"></span> Vice President
-      </div>
-    </div>
-
-    <div class="recipient-group-label">Cabinet — Email</div>
-    <div class="recipients" id="cabinetEmailChips">
-      <div class="chip" data-email="pete.hegseth@defense.gov" data-name="Sec. Pete Hegseth (Defense)"
-        onclick="toggleChip(this)">
-        <span class="dot"></span> Hegseth (Defense)
-      </div>
-      <div class="chip" data-email="AskDOJ@usdoj.gov" data-name="AG Pam Bondi (DOJ)" onclick="toggleChip(this)">
-        <span class="dot"></span> Bondi (DOJ)
-      </div>
-    </div>
-
-    <p style="font-size:12px; color:rgba(245,240,232,0.4); margin-bottom:20px;">
-      Find your Senator or Rep at <a href="https://www.congress.gov/members/find-your-member" target="_blank"
-        style="color:var(--gold);">congress.gov</a>.
-    </p>
-
-    <div style="margin-bottom:24px;">
-      <input id="customEmail" type="email" placeholder="+ Add your Senator or Rep's email address"
-        style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.15); color:var(--cream); font-family:'DM Sans',sans-serif; font-size:14px; padding:12px 16px; margin-bottom:8px;">
-    </div>
-
-    <div class="section-label">Step 3 — Send it</div>
-
-    <button class="btn-primary" onclick="sendEmail()">✉ SEND NOW — ONE CLICK</button>
-    <a class="btn-secondary" href="#qr-anchor">📱 GET THE QR CODE TO SHARE</a>
-
-    <p style="font-size:12px; color:rgba(245,240,232,0.35); text-align:center; margin-top:12px; line-height:1.6;">
-      Opens your mail app pre-filled and ready to send. Your email address is never collected by this site.
-    </p>
+    <a class="btn-primary" href="https://www.whitehouse.gov/contact/" target="_blank">CLICK HERE AND LET THEM KNOW WHAT YOU THINK</a>
   </div>
 
   <div class="divider" style="margin-top:48px;"></div>
@@ -527,7 +465,7 @@
   </footer>
 
   <script>
-    const PAGE_URL = "https://pressureon.org/";
+    const PAGE_URL = "https://www.whitehouse.gov/contact/";
 
     // QR CODE
     window.addEventListener('load', () => {
@@ -540,61 +478,7 @@
         correctLevel: QRCode.CorrectLevel.H
       });
       document.getElementById('qrUrl').textContent = PAGE_URL;
-
-      fetch('/api/count').then(r => r.json()).then(d => {
-        document.getElementById('countNumber').textContent = d.count.toLocaleString();
-        document.getElementById('emailCountDisplay').style.opacity = '1';
-      }).catch(() => {});
     });
-
-    // CHIP TOGGLE
-    function toggleChip(el) {
-      el.classList.toggle('active');
-    }
-
-    // SELECT ALL CABINET (all chips in whitehouse + cabinet groups)
-    function selectAllCabinet() {
-      const allChips = document.querySelectorAll('#whitehouseChips .chip, #cabinetEmailChips .chip');
-      // Check if all are already active
-      const allActive = Array.from(allChips).every(c => c.classList.contains('active'));
-      allChips.forEach(chip => {
-        if (allActive) {
-          chip.classList.remove('active');
-        } else {
-          chip.classList.add('active');
-        }
-      });
-    }
-
-    // SEND EMAIL + OPEN WEB FORMS
-    function sendEmail() {
-      const message = document.getElementById('messageText').value.trim();
-      const customEmail = document.getElementById('customEmail').value.trim();
-
-      // Collect email recipients
-      const emailChips = document.querySelectorAll('#whitehouseChips .chip.active, #cabinetEmailChips .chip.active');
-      let emails = [];
-      emailChips.forEach(chip => {
-        const email = chip.dataset.email;
-        if (email && !email.includes('yoursenator')) emails.push(email);
-      });
-      if (customEmail) emails.push(customEmail);
-
-      if (emails.length === 0) {
-        alert('Please select at least one recipient above, or add a custom email address.');
-        return;
-      }
-
-      const subject = encodeURIComponent('Message from a constituent: No Kings — Keep the Pressure On');
-      const body = encodeURIComponent(message);
-      const to = emails.join(',');
-      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
-
-      fetch('/api/click', { method: 'POST' }).then(r => r.json()).then(d => {
-        document.getElementById('countNumber').textContent = d.count.toLocaleString();
-        document.getElementById('emailCountDisplay').style.opacity = '1';
-      }).catch(() => {});
-    }
 
     // SHARE FUNCTIONS
     function copyLink() {
