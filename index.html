@@ -435,7 +435,11 @@
       <textarea id="messageText">Mr Trump, we didn't elect a king! Follow the Constitution and work for the American people. Bring down prices, work with our allies to keep the world safe, and stop acting unilaterally. Work with Congress to pass some legislation that benefits all Americans.</textarea>
     </div>
 
-    <a class="btn-primary" href="https://www.whitehouse.gov/contact/" target="_blank">CLICK HERE AND LET THEM KNOW WHAT YOU THINK</a>
+    <button class="btn-primary" onclick="goToWhiteHouse()">CLICK HERE AND LET THEM KNOW WHAT YOU THINK</button>
+
+    <p id="emailCountDisplay" style="font-size:28px; color:var(--gold); text-align:center; margin-top:12px; font-weight:600; letter-spacing:0.03em; opacity:0; transition:opacity 0.4s;">
+      <span id="countNumber">0</span> people have contacted the White House from this page
+    </p>
   </div>
 
   <div class="divider" style="margin-top:48px;"></div>
@@ -478,7 +482,20 @@
         correctLevel: QRCode.CorrectLevel.H
       });
       document.getElementById('qrUrl').textContent = PAGE_URL;
+
+      fetch('/api/count').then(r => r.json()).then(d => {
+        document.getElementById('countNumber').textContent = d.count.toLocaleString();
+        document.getElementById('emailCountDisplay').style.opacity = '1';
+      }).catch(() => {});
     });
+
+    function goToWhiteHouse() {
+      window.open('https://www.whitehouse.gov/contact/', '_blank');
+      fetch('/api/click', { method: 'POST' }).then(r => r.json()).then(d => {
+        document.getElementById('countNumber').textContent = d.count.toLocaleString();
+        document.getElementById('emailCountDisplay').style.opacity = '1';
+      }).catch(() => {});
+    }
 
     // SHARE FUNCTIONS
     function copyLink() {
